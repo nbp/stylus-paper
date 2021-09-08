@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "name": "Draw On Pages",
+  "description": "Use a tablet to hand-draw over web pages.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "<all_urls>",
+    "menus"
+  ],
+  "icons": {
+    "16": "data/icons/16.png",
+    "32": "data/icons/32.png",
+    "48": "data/icons/48.png",
+    "64": "data/icons/64.png",
+    "128": "data/icons/128.png",
+    "256": "data/icons/256.png",
+    "512": "data/icons/512.png"
+  },
+  "background": {
+    "persistent": true,
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "homepage_url": "https://nbp.github.io/draw-on-pages/index.html",
+  "browser_action": {
+    "default_title": "Toggle the drawing interface."
+  },
+  "web_accessible_resources": [
+    "data/window/index.html"
+  ],
+  "commands": {
+    "_execute_browser_action": {}
+  }
+}

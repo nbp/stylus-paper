@@ -1,0 +1,28 @@
+#drawOnPages_body {
+    display: flex; /* required */
+    flex-flow: row nowrap; /* required */
+}
+
+/* New content of the page is put in foreground */
+#drawOnPages_foreground {
+    box-sizing: border-box; /* required */
+    width: 100%; /* required */
+    flex: none; /* required */
+    margin-left: -100%; /* required */
+    background-color: rgba(0,0,0,0.5);
+    /* height: 100vh; */
+}
+
+/* Old content of the page is put in background */
+#drawOnPages_content {
+    box-sizing: border-box; /* required */
+    width: 100%; /* required */
+    flex: none; /* required */
+}
+
+.drawOnPages_above {
+    z-index: 100000;
+}
+.drawOnPages_below {
+    z-index: -100000;
+}
