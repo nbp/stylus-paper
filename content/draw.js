@@ -221,6 +221,9 @@
     // Given a DOM element, replace it content by a flex box which will wrap its
     // content and overlay it with another item.
     function initOverlay(content) {
+        let height = content.scrollHeight;
+        let width = content.scrollWidth;
+
         // Update the DOM to make use of flex-box at the top-level.
         let overlay = document.createElement('div');
         overlay.setAttribute("id", "drawOnPages_foreground");
@@ -235,12 +238,12 @@
         content.appendChild(flexer);
 
         // Copy the height of the background to the foreground element.
-        overlay.style.height = wrapper.scrollHeight;
+        overlay.style.height = height;
 
         let svg = document.createElementNS(svgNS, "svg");
         overlay.appendChild(svg);
-        svg.setAttribute("width", overlay.scrollWidth);
-        svg.setAttribute("height", overlay.scrollHeight);
+        svg.setAttribute("width", width);
+        svg.setAttribute("height", height);
 
         initHooks(overlay, svg);
 
