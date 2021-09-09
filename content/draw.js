@@ -92,6 +92,11 @@
         svg.replaceChildren(...[ca, cb, shape]);
     }
 
+    function toggle_foreground(overlay) {
+        overlay.classList.toggle("drawOnPages_above");
+        overlay.classList.toggle("drawOnPages_below");
+    }
+
     let is_down = false;
     let undo_list = [];
     let redo_list = [];
@@ -179,6 +184,7 @@
                 undo_list.push(action);
                 return;
             }
+            if (keyText === "Cx") { toggle_foreground(overlay); return;}
 
             // Testing createStroke.
             /*
