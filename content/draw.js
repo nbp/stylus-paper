@@ -102,7 +102,7 @@
     let redo_list = [];
     let last_action_timestamp;
     function undo(svg) {
-        if (!undo_list) return;
+        if (!undo_list.length) return;
         let action = undo_list.pop();
         for (let elem of action.add) {
             svg.removeChild(elem.dom);
@@ -114,7 +114,7 @@
     }
 
     function redo(svg) {
-        if (!redo_list) return;
+        if (!redo_list.length) return;
         let action = redo_list.pop();
         for (let elem of action.remove) {
             svg.removeChild(elem.dom);
