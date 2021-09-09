@@ -100,50 +100,86 @@
     let is_down = false;
     let undo_list = [];
     let redo_list = [];
+    let last_action_timestamp;
+    function undo(svg) {
+        if (!undo_list) return;
+        let action = undo_list.pop();
+        for (let elem of action.add) {
+            svg.removeChild(elem.dom);
+        }
+        for (let elem of action.remove) {
+            svg.appendChild(elem.dom);
+        }
+        redo_list.push(action);
+    }
+
+    function redo(svg) {
+        if (!redo_list) return;
+        let action = redo_list.pop();
+        for (let elem of action.remove) {
+            svg.removeChild(elem.dom);
+        }
+        for (let elem of action.add) {
+            svg.appendChild(elem.dom);
+        }
+        undo_list.push(action);
+        return;
+    }
+
+    function record_add(action) {
+        if (action.pos0 === null || undo_list.length === 0) {
+            // The previous action is distant, create a new record in the undo_list.
+            undo_list.push({ add: [], remove: [] });
+        }
+
+        // Append the last action to the last element of the undo_list.
+        let last = undo_list.pop();
+        last.add.push(action);
+        undo_list.push(last);
+    }
+
     let last_position = null;
-    let last_promise = Promise.resolve(null);
     function initHooks(overlay, svg) {
         // Add overlay listeners to draw on the svg element.
         overlay.onpointerdown = function onpointerdown(event) {
+            // console.log("onpointerdown", event.button, event.offsetX, event.offsetY, event.pressure);
+            if (event.button != 0) return;
             let position = {
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
                 pressure: event.pressure
             };
-            last_promise = last_promise.then(_ => {
-                let shape = createStroke(last_position, position);
-                undo_list.push({ add: [{dom: shape, pos0: last_position, pos1: position}], remove: [] });
-                svg.appendChild(shape);
-                last_position = position;
-            });
+            let shape = createStroke(last_position, position);
+            svg.appendChild(shape);
+            record_add({dom: shape, pos0: last_position, pos1: position});
+            last_position = position;
             is_down = true;
         };
         overlay.onpointermove = function onpointermove(event) {
+            // console.log("onpointermove", event.button, event.offsetX, event.offsetY, event.pressure);
             if (!is_down) return;
             let position = {
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
                 pressure: event.pressure
             };
-            last_promise = last_promise.then(_ => {
-                let shape = createStroke(last_position, position);
-                undo_list.push({ add: [{dom: shape, pos0: last_position, pos1: position}], remove: [] });
-                svg.appendChild(shape);
-                last_position = position;
-            });
+            let shape = createStroke(last_position, position);
+            svg.appendChild(shape);
+            record_add({dom: shape, pos0: last_position, pos1: position});
+            last_position = position;
         };
         overlay.onpointerup = function onpointerup(event) {
+            // console.log("onpointerup", event.button, event.offsetX, event.offsetY, event.pressure);
+            if (!is_down) return;
             let position = {
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
                 pressure: event.pressure
             };
-            last_promise = last_promise.then(_ => {
-                let shape = createStroke(last_position, position);
-                undo_list.push({ add: [{dom: shape, pos0: last_position, pos1: position}], remove: [] });
-                svg.appendChild(shape);
-                last_position = null;
-            });
+            let shape = createStroke(last_position, position);
+            svg.appendChild(shape);
+            record_add({dom: shape, pos0: last_position, pos1: position});
+            last_position = null;
             is_down = false;
         };
 
@@ -159,31 +195,9 @@
             if (event.shiftKey) keyText += "S";
             keyText += event.key.toLowerCase();
 
-            if (keyText === "Cz") {
-                if (!undo_list) return;
-                let action = undo_list.pop();
-                for (let elem of action.add) {
-                    svg.removeChild(elem.dom);
-                }
-                for (let elem of action.remove) {
-                    svg.appendChild(elem.dom);
-                }
-                redo_list.push(action);
-                return;
-            }
+            if (keyText === "Cz") { undo(svg); return; }
+            if (keyText === "CSz") { redo(svg); return; }
 
-            if (keyText === "CSz") {
-                if (!redo_list) return;
-                let action = redo_list.pop();
-                for (let elem of action.remove) {
-                    svg.removeChild(elem.dom);
-                }
-                for (let elem of action.add) {
-                    svg.appendChild(elem.dom);
-                }
-                undo_list.push(action);
-                return;
-            }
             if (keyText === "Cx") { toggle_foreground(overlay); return;}
 
             // Testing createStroke.
