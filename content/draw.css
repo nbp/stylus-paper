@@ -1,3 +1,8 @@
+:root {
+    --draw-on-pages-above: 100000;
+    --draw-on-pages-below: -100000;
+}
+
 #drawOnPages_body {
     display: flex; /* required */
     flex-flow: row nowrap; /* required */
@@ -21,9 +26,9 @@
 }
 
 .drawOnPages_above {
-    z-index: 100000;
+    z-index: var(--draw-on-pages-above);
 }
 .drawOnPages_below {
-    z-index: -100000;
+    z-index: var(--draw-on-pages-below);
     filter: opacity(0.1);
 }
