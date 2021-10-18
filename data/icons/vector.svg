@@ -28,7 +28,7 @@
      showgrid="false"
      units="px"
      inkscape:zoom="17.212261"
-     inkscape:cx="25.534124"
+     inkscape:cx="25.592222"
      inkscape:cy="24.546456"
      inkscape:window-width="2560"
      inkscape:window-height="1406"
@@ -140,19 +140,14 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <g
-       id="g5479"
-       transform="translate(-0.8151847,0.7195991)">
-      <path
-         id="rect2251"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.999999;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
-         d="m 37.859375,6.8847656 c -0.910017,0 -1.820276,0.3495732 -2.517578,1.046875 L 14.896484,28.376953 c -0.114648,0.114649 -0.218654,0.236124 -0.314453,0.361328 l 0.06055,-0.06055 c 1.394604,-1.394603 3.6386,-1.394603 5.033203,0 1.282592,1.282592 1.385154,3.283444 0.308594,4.681641 L 40.376953,12.964844 c 1.394604,-1.394604 1.394604,-3.6385996 0,-5.0332034 -0.697302,-0.6973018 -1.607561,-1.046875 -2.517578,-1.046875 z"
-         transform="scale(0.26458333)" />
-      <path
-         id="path2728"
-         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583;stroke-linecap:round"
-         d="m 5.3599406,8.2696056 c 0,0.9452595 -1.9893816,1.169602 -1.9893816,1.169602 0,0 0.2572727,-1.9698428 1.1604831,-1.9985005 0.457788,0 0.8288985,0.3711105 0.8288985,0.8288985 z"
-         sodipodi:nodetypes="cccc" />
-    </g>
+    <path
+       id="rect2251"
+       style="fill:#3e3d40;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.264583;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 9.2017748,2.5411933 c -0.2407753,0 -0.4816147,0.092491 -0.6661092,0.2769857 l -5.409489,5.4094888 c -0.030334,0.030334 -0.057852,0.062474 -0.083199,0.095601 l 0.016021,-0.01602 c 0.368989,-0.3689887 0.9627129,-0.3689887 1.3317017,0 0.3393524,0.3393524 0.3664886,0.8687445 0.081649,1.2386841 L 9.867884,4.1498807 c 0.368989,-0.368989 0.368989,-0.9627128 0,-1.3317017 C 9.6833895,2.6336846 9.4425501,2.5411933 9.2017748,2.5411933 Z" />
+    <path
+       id="path2728"
+       style="fill:#3e3d40;fill-opacity:1;fill-rule:evenodd;stroke-width:0.264583;stroke-linecap:round"
+       d="m 4.5447559,8.9892047 c 0,0.9452595 -1.9893816,1.1696023 -1.9893816,1.1696023 0,0 0.2572727,-1.9698431 1.1604831,-1.9985008 0.457788,0 0.8288985,0.3711105 0.8288985,0.8288985 z"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>
