@@ -6,6 +6,7 @@
     window.drawOnPagesContentScriptInitialized = true;
     let svgNS = "http://www.w3.org/2000/svg";
     let pressure_radius = 20;
+    let menu = null;
 
     function createPoint(event) {
         let circle = document.createElementNS(svgNS, "circle");
@@ -97,7 +98,6 @@
         overlay.classList.toggle("drawOnPages_below");
     }
 
-    let is_down = false;
     let undo_list = [];
     let redo_list = [];
     let last_action_timestamp;
@@ -140,47 +140,80 @@
 
     let last_position = null;
     function initHooks(overlay, svg) {
-        // Add overlay listeners to draw on the svg element.
-        overlay.onpointerdown = function onpointerdown(event) {
-            // console.log("onpointerdown", event.button, event.offsetX, event.offsetY, event.pressure);
-            if (event.button != 0) return;
-            let position = {
+        function get_position(event) {
+            return {
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
                 pressure: event.pressure
             };
-            let shape = createStroke(last_position, position);
-            svg.appendChild(shape);
-            record_add({dom: shape, pos0: last_position, pos1: position});
-            last_position = position;
-            is_down = true;
+        }
+
+        let pointer_actions, draw_actions, menu_actions;
+
+        draw_actions = {
+            on_leftbtn_drag: (from, to) => {
+                let shape = createStroke(from, to);
+                svg.appendChild(shape);
+                record_add({dom: shape, pos0: from, pos1: to});
+            },
+            on_context_menu: pos => {
+                menu.classList.toggle("hide-draw-menu");
+                menu.style.transform = `translateX(${pos.x}px) translateY(${pos.y}px)`;
+                pointer_actions = menu_actions;
+                return true;
+            }
+        };
+
+        menu_actions = {
+            on_leftbtn_drag: (from, to) => {
+                menu.classList.toggle("hide-draw-menu");
+                menu.style.transform = "";
+                pointer_actions = draw_actions;
+            },
+            on_context_menu: pos => {
+                menu.style.transform = `translateX(${pos.x}px) translateY(${pos.y}px)`;
+                return true;
+            }
+        };
+
+        // Default to draw actions.
+        pointer_actions = draw_actions;
+
+        // Add overlay listeners to draw on the svg element.
+        let is_leftbtn_down = false;
+        overlay.onpointerdown = function onpointerdown(event) {
+            // console.log("onpointerdown", event.button, event.offsetX, event.offsetY, event.pressure);
+            if (event.button == 0) {
+                let position = get_position(event);
+                pointer_actions.on_leftbtn_drag?.(last_position, position);
+                last_position = position;
+                is_leftbtn_down = true;
+            }
         };
         overlay.onpointermove = function onpointermove(event) {
             // console.log("onpointermove", event.button, event.offsetX, event.offsetY, event.pressure);
-            if (!is_down) return;
-            let position = {
-                offsetX: event.offsetX,
-                offsetY: event.offsetY,
-                pressure: event.pressure
-            };
-            let shape = createStroke(last_position, position);
-            svg.appendChild(shape);
-            record_add({dom: shape, pos0: last_position, pos1: position});
-            last_position = position;
+            if (is_leftbtn_down) {
+                let position = get_position(event);
+                pointer_actions.on_leftbtn_drag?.(last_position, position);
+                last_position = position;
+            }
         };
         overlay.onpointerup = function onpointerup(event) {
             // console.log("onpointerup", event.button, event.offsetX, event.offsetY, event.pressure);
-            if (!is_down) return;
-            let position = {
-                offsetX: event.offsetX,
-                offsetY: event.offsetY,
-                pressure: event.pressure
-            };
-            let shape = createStroke(last_position, position);
-            svg.appendChild(shape);
-            record_add({dom: shape, pos0: last_position, pos1: position});
-            last_position = null;
-            is_down = false;
+            if (is_leftbtn_down) {
+                let position = get_position(event);
+                pointer_actions.on_leftbtn_drag?.(last_position, position);
+                last_position = null;
+                is_leftbtn_down = false;
+            }
+        };
+        window.oncontextmenu = function oncontextmenu(event) {
+            let position = { x: event.clientX, y: event.clientY };
+            // TODO: The context menu is currently disabled as it is not yet
+            // functional and tend to appear frequently.
+            if (false && pointer_actions.on_context_menu?.(position)) {
+                event.preventDefault();
+            }
         };
 
         let test_a = { pressure: 0.8, offsetX: 412, offsetY: 176 };
@@ -255,6 +288,11 @@
         var max_height = document.body.scrollHeight;
         var elems = document.getElementsByTagName("*");
         for (var elem of elems) {
+            if (elem.scrollHeight == elem.scrollWidth && elem.scrollHeight == 1000000) {
+                // sourcegraph.com has a search box which is stupidly large, and
+                // thus gather the focus of the drawOnPages area.
+                continue;
+            }
             if (elem.scrollHeight > max_height) {
                 max_elem = elem;
                 max_height = elem.scrollHeight;
@@ -263,7 +301,30 @@
         return max_elem;
     }
 
+    // While we could use the actual context menu to display menu items, it
+    // might be better to have a drawing context menu for drawing.
+    function initDrawMenu() {
+        menu = document.createElement("div");
+        menu.setAttribute("id", "drawOnPages_contextMenu");
+        menu.classList.toggle("draw-menu");
+        menu.classList.toggle("hide-draw-menu");
+        menu.innerHTML = `
+          <ul>
+            <li><input type="color" id="stroke_color" name="stroke_color" value="#000000" /><label for="stroke_color">Stroke</label></li>
+            <li><input type="range" id="stroke_width" name="stroke_width" value="20" min="1" max="100" /><label for="stroke_width">Stroke Width</label></li>
+          </ul>
+        `;
+        let next = `
+            <li><button type="button" id="pen">Pen</button></li>
+            <li><button type="button" id="Select">Select</button></li>
+            <li><button type="button" id="Erase">Erase</button></li>
+        `;
+
+        document.body.parentElement.appendChild(menu);
+    }
+
 
     let biggest = findElementWithHighestScrollHeight();
+    initDrawMenu();
     let info = initOverlay(biggest);
-})()
+})();

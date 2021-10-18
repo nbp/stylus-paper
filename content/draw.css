@@ -1,7 +1,9 @@
 :root {
     --draw-on-pages-above: 100000;
+    --draw-on-pages-context-menu: 100001;
     --draw-on-pages-below: -100000;
 }
+
 
 #drawOnPages_body {
     display: flex; /* required */
@@ -31,4 +33,20 @@
 .drawOnPages_below {
     z-index: var(--draw-on-pages-below);
     filter: opacity(0.1);
+}
+
+.hide-draw-menu {
+    display: none;
+}
+.draw-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #404040;
+  box-shadow: 3px 3px 3px grey;
+  border-radius: 3px;
+  color: white;
+  text-align: left;
+  z-index: var(--draw-on-pages-context-menu);
+  cursor: auto;
 }
