@@ -33,5 +33,11 @@
   ],
   "commands": {
     "_execute_browser_action": {}
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "draw.on.pages@nbp.name",
+      "strict_min_version": "90.0"
+    }
   }
 }
