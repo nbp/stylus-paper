@@ -37,6 +37,6 @@ This addon requires some permissions from the user to behave as expected. The fo
 
 ## Testing Locally
 
-This addon can be tested locally by following the recommendation from the []extension workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
+This addon can be tested locally by following the recommendation from the [extension workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
 
 To have a more persistent installation, the script `publish.sh` is used to generate a zip file which can be added in `about:addons` after [disabling signature verfification](https://blog.mozilla.org/addons/2015/12/23/loading-temporary-add-ons/).
