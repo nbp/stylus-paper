@@ -1,13 +1,10 @@
 {
   "manifest_version": 2,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "name": "Draw On Pages",
   "description": "Use a tablet to hand-draw over web pages.",
   "permissions": [
-    "activeTab",
-    "storage",
-    "<all_urls>",
-    "menus"
+    "activeTab"
   ],
   "icons": {
     "16": "data/icons/pen.svg",
