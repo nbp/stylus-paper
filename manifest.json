@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "version": "0.1.0",
-  "name": "Draw On Pages",
-  "description": "Use a tablet to hand-draw over web pages.",
+  "name": "Stylus Paper",
+    "description": "Use your tablet and stylus to draw over any web page content. The drawn content scrolls with the page which is under it.",
   "permissions": [
     "activeTab"
   ],
@@ -21,7 +21,7 @@
       "background.js"
     ]
   },
-  "homepage_url": "https://nbp.github.io/draw-on-pages/index.html",
+  "homepage_url": "https://github.com/nbp/stylus-paper/",
   "browser_action": {
     "default_title": "Toggle the drawing interface."
   },
@@ -33,7 +33,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "draw.on.pages@nbp.name",
+      "id": "stylus.paper@nbp.name",
       "strict_min_version": "90.0"
     }
   }

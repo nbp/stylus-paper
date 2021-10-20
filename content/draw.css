@@ -1,17 +1,17 @@
 :root {
-    --draw-on-pages-above: 100000;
-    --draw-on-pages-context-menu: 100001;
-    --draw-on-pages-below: -100000;
+    --stylus-paper-above: 100000;
+    --stylus-paper-context-menu: 100001;
+    --stylus-paper-below: -100000;
 }
 
 
-#drawOnPages_body {
+#stylusPaper_body {
     display: flex; /* required */
     flex-flow: row nowrap; /* required */
 }
 
 /* New content of the page is put in foreground */
-#drawOnPages_foreground {
+#stylusPaper_foreground {
     box-sizing: border-box; /* required */
     width: 100%; /* required */
     flex: none; /* required */
@@ -21,17 +21,17 @@
 }
 
 /* Old content of the page is put in background */
-#drawOnPages_content {
+#stylusPaper_content {
     box-sizing: border-box; /* required */
     width: 100%; /* required */
     flex: none; /* required */
 }
 
-.drawOnPages_above {
-    z-index: var(--draw-on-pages-above);
+.stylusPaper_above {
+    z-index: var(--stylus-paper-above);
 }
-.drawOnPages_below {
-    z-index: var(--draw-on-pages-below);
+.stylusPaper_below {
+    z-index: var(--stylus-paper-below);
     filter: opacity(0.1);
 }
 
@@ -47,6 +47,6 @@
   border-radius: 3px;
   color: white;
   text-align: left;
-  z-index: var(--draw-on-pages-context-menu);
+  z-index: var(--stylus-paper-context-menu);
   cursor: auto;
 }

@@ -1,7 +1,7 @@
-# Draw On Pages
+# Stylus Paper
 
 Use your tablet and stylus to draw over any web page content. The drawn content
-is anchored with the text which is under it.
+scrolls with the page which is under it.
 
 ## Description
 

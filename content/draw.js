@@ -1,9 +1,9 @@
-(function drawOnPagesContentScript() {
+(function stylusPaperContentScript() {
     // Prevent doing the initialization twice.
-    if (window.drawOnPagesContentScriptInitialized) {
+    if (window.stylusPaperContentScriptInitialized) {
         return;
     }
-    window.drawOnPagesContentScriptInitialized = true;
+    window.stylusPaperContentScriptInitialized = true;
     let svgNS = "http://www.w3.org/2000/svg";
     let pressure_radius = 20;
     let menu = null;
@@ -94,8 +94,8 @@
     }
 
     function toggle_foreground(overlay) {
-        overlay.classList.toggle("drawOnPages_above");
-        overlay.classList.toggle("drawOnPages_below");
+        overlay.classList.toggle("stylusPaper_above");
+        overlay.classList.toggle("stylusPaper_below");
     }
 
     let undo_list = [];
@@ -259,12 +259,12 @@
 
         // Update the DOM to make use of flex-box at the top-level.
         let overlay = document.createElement('div');
-        overlay.setAttribute("id", "drawOnPages_foreground");
-        overlay.classList.toggle("drawOnPages_above");
+        overlay.setAttribute("id", "stylusPaper_foreground");
+        overlay.classList.toggle("stylusPaper_above");
         let wrapper = document.createElement('div');
-        wrapper.setAttribute("id", "drawOnPages_content");
+        wrapper.setAttribute("id", "stylusPaper_content");
         let flexer = document.createElement('div');
-        flexer.setAttribute("id", "drawOnPages_body");
+        flexer.setAttribute("id", "stylusPaper_body");
         wrapper.replaceChildren(...content.children);
         flexer.appendChild(wrapper);
         flexer.appendChild(overlay);
@@ -290,7 +290,7 @@
         for (var elem of elems) {
             if (elem.scrollHeight == elem.scrollWidth && elem.scrollHeight == 1000000) {
                 // sourcegraph.com has a search box which is stupidly large, and
-                // thus gather the focus of the drawOnPages area.
+                // thus gather the focus of the stylusPaper area.
                 continue;
             }
             if (elem.scrollHeight > max_height) {
@@ -305,7 +305,7 @@
     // might be better to have a drawing context menu for drawing.
     function initDrawMenu() {
         menu = document.createElement("div");
-        menu.setAttribute("id", "drawOnPages_contextMenu");
+        menu.setAttribute("id", "stylusPaper_contextMenu");
         menu.classList.toggle("draw-menu");
         menu.classList.toggle("hide-draw-menu");
         menu.innerHTML = `
